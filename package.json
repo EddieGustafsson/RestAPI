@@ -1,0 +1,34 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "A Node.js RESTful API for TP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EddieGustafsson/RestAPI.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Eddie Gustafsson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EddieGustafsson/RestAPI/issues"
+  },
+  "homepage": "https://github.com/EddieGustafsson/RestAPI#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.9"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2"
+  }
+}
