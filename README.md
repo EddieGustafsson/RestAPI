@@ -22,5 +22,5 @@ In order to test this RestAPI you have to create a nodemon.json file in the root
 ```
 
 ### 3. Start the API
-In order to start he API type this in a command line:
+To start he API type this in a command line:
 ```npm start```
