@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const checkAuth = require('../auth/check-auth');
 
 const Service = require("../models/services");
 
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth,(req, res, next) => {
     Service.find()
     .select('_id name type userId')
     .populate('wiki')

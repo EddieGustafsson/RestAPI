@@ -4,10 +4,10 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const userRoutes = require('./api/routes/users');
 const wikiRoutes = require('./api/routes/wiki')
 const serviceRoutes = require('./api/routes/services');
 const uploadRoutes = require('./api/routes/upload');
+const userRoutes = require('./api/routes/user');
 
 mongoose.connect(
     "mongodb+srv://pritunl:" +
@@ -38,10 +38,10 @@ app.use((req, res, next) => {
 });
 
 //Routes which should handle requests
-app.use('/users', userRoutes);
 app.use('/wikis', wikiRoutes);
 app.use('/services', serviceRoutes);
 app.use('/upload', uploadRoutes);
+app.use('/user', userRoutes);
 
 //Handles errors
 app.use((req, res, next) => {
