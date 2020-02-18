@@ -21,7 +21,7 @@ router.get('/', checkAuth,(req, res, next) => {
                     type: doc.type,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost/services/' + doc._id
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/services/' + doc._id
                     }
                 }
             })
@@ -37,7 +37,7 @@ router.get('/', checkAuth,(req, res, next) => {
 });
 
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     const service = new Service({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -54,7 +54,7 @@ router.post('/', (req, res, next) => {
                 _id: result._id,
                 request: {
                     type: 'GET',
-                    url: "http://localhost/services/" + result._id
+                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/services/' + result._id
                 }
             }
         });
@@ -67,7 +67,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.get('/:serviceId', (req, res, next) => {
+router.get('/:serviceId', checkAuth, (req, res, next) => {
     const id = req.params.serviceId;
     Service.findById(id)
     .select('name _id userId type')
@@ -81,7 +81,7 @@ router.get('/:serviceId', (req, res, next) => {
                 request:{
                     type: 'GET',
                     description: 'Get all services',
-                    url: 'http://localhost/services'
+                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/services'
                 }
             });
         } else {
@@ -99,7 +99,7 @@ router.get('/:serviceId', (req, res, next) => {
     });
 });
 
-router.patch("/:serviceId", (req, res, next) => {
+router.patch("/:serviceId", checkAuth, (req, res, next) => {
     const id = req.params.serviceId;
     const updateOps = {};
     for (const ops of req.body){
@@ -113,7 +113,7 @@ router.patch("/:serviceId", (req, res, next) => {
             message: 'Service updated',
             request: {
                 type: 'GET',
-                url: 'http://localhost/services/' + id
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/services/' + id
             }
         });
 
@@ -126,7 +126,7 @@ router.patch("/:serviceId", (req, res, next) => {
     });
 });
 
-router.delete('/:serviceId', (req, res, next) => {
+router.delete('/:serviceId', checkAuth, (req, res, next) => {
     const id = req.params.serviceId;
     Service.remove({_id: id})
     .exec()
@@ -135,7 +135,7 @@ router.delete('/:serviceId', (req, res, next) => {
             message: 'Service delted',
             request: {
                 type: 'POST',
-                url: 'http://localhost/services',
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/services',
                 body: {name: 'String', userId: 'Number', type: 'String'}
             }
         });
