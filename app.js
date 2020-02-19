@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 
 //Routes which should handle requests
-app.use('/wikis', wikiRoutes);
+app.use('/wiki', wikiRoutes);
 app.use('/services', serviceRoutes);
 app.use('/upload', uploadRoutes);
 app.use('/user', userRoutes);
