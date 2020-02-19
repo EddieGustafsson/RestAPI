@@ -36,7 +36,6 @@ router.get('/', checkAuth,(req, res, next) => {
     });
 });
 
-
 router.post('/', checkAuth, (req, res, next) => {
     const service = new Service({
         _id: new mongoose.Types.ObjectId(),
