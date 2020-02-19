@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
                         private: doc.private,
                         request:{
                             type: 'GET',
-                            url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/' + doc._id
+                            url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/' + doc._id
                         }
 
                     }
@@ -50,7 +50,7 @@ router.get("/:wikiId", (req, res, next) => {
             wiki: wiki,
             request: {
                 type: "GET",
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki'
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki'
             }
         });
     })
@@ -87,7 +87,7 @@ router.post('/', (req, res, next) => {
                 },
                 request: {
                     type: 'GET',
-                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/' + result._id
+                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/' + result._id
                 }
             });
         })
@@ -107,7 +107,7 @@ router.delete("/:wikiId", (req, res, next) => {
             message: "Wiki deleted",
             request: {
                 type: "POST",
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wikis',
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki',
                 body: {serviceId: "Id", type: "String", userId:"Number"}
             }
         });
@@ -141,7 +141,7 @@ router.get("/articles/:wikiId", (req, res, next) => {
                     source: doc.source,
                     request: {
                         type: 'GET',
-                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article/' + doc._id
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + doc._id
                     }
                 }
             })
@@ -176,7 +176,7 @@ router.get("/article/:articleId", (req, res, next) => {
                     request: {
                         message: 'Retrive all articles from one wiki',
                         type: 'GET',
-                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/articles/' + doc.wiki_id
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/articles/' + doc.wiki_id
                     }
                 }
             })
@@ -229,7 +229,7 @@ router.post('/article', (req, res, next) => {
                 },
                 request: {
                     type: 'GET',
-                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article/' + result._id
+                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + result._id
                 }
             });
         })
@@ -255,7 +255,7 @@ router.patch("/article/:articleId", (req, res, next) => {
             message: 'Article updated',
             request: {
                 type: 'GET',
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article/' + id
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + id
             }
         });
 
@@ -277,7 +277,7 @@ router.delete("/article/:articleId", (req, res, next) => {
             request: {
                 message: 'Create a new article',
                 type: "POST",
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article',
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article',
                 body: {wikiId: "Id", createdUserId: "Number", acceptedUserId:"Number", title: "String", date: "Date", source: "String"}
             }
         });

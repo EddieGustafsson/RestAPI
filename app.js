@@ -38,10 +38,10 @@ app.use((req, res, next) => {
 });
 
 //Routes which should handle requests
-app.use('/wiki', wikiRoutes);
-app.use('/services', serviceRoutes);
-app.use('/upload', uploadRoutes);
-app.use('/user', userRoutes);
+app.use('/v1/wiki', wikiRoutes);
+app.use('/v1/services', serviceRoutes);
+app.use('/v1/upload', uploadRoutes);
+app.use('/v1/user', userRoutes);
 
 //Handles errors
 app.use((req, res, next) => {
