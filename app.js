@@ -10,7 +10,7 @@ const uploadRoutes = require('./api/routes/upload');
 const userRoutes = require('./api/routes/user');
 
 mongoose.connect(
-    "mongodb+srv://test2:" +
+    "mongodb+srv://"+ process.env.MONGO_ATLAS_USERNAME +":" +
       process.env.MONGO_ATLAS_PWD +
       "@cluster0-fb0ts.gcp.mongodb.net/test?retryWrites=true&w=majority",
     {
