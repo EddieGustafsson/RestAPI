@@ -15,8 +15,8 @@ In order to test this RestAPI you have to create a nodemon.json file in the root
 ```json
 {
     "env":{
-        "MONGO_ATLAS_PWD": "YOUR PASSWORD",
         "MONGO_ATLAS_USERNAME": "YOUR USERNAME",
+        "MONGO_ATLAS_PWD": "YOUR PASSWORD",
         "HOST": "localhost",
         "PORT": "8080",
         "JWT_KEY": "YOUR KEY"
