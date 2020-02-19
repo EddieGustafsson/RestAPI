@@ -36,6 +36,31 @@ router.get('/', (req, res, next) => {
         });
 });
 
+router.get("/:wikiId", (req, res, next) => {
+    Wiki.findById(req.params.wikiId)
+    .exec()
+    .then(wiki => {
+        if(!wiki){
+            return res.status(404).json({
+                message: "Wiki not found"
+            });
+        }
+
+        res.status(200).json({
+            wiki: wiki,
+            request: {
+                type: "GET",
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wikis'
+            }
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error:error
+        });
+    });
+});
+
 router.post('/', (req, res, next) => {
     Service.findById(req.body.serviceId)
         .then(wikis => {
@@ -72,31 +97,6 @@ router.post('/', (req, res, next) => {
                 error: error            
             })
         });
-});
-
-router.get("/:wikiId", (req, res, next) => {
-    Wiki.findById(req.params.wikiId)
-    .exec()
-    .then(wiki => {
-        if(!wiki){
-            return res.status(404).json({
-                message: "Wiki not found"
-            });
-        }
-
-        res.status(200).json({
-            wiki: wiki,
-            request: {
-                type: "GET",
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wikis'
-            }
-        });
-    })
-    .catch(err => {
-        res.status(500).json({
-            error:error
-        });
-    });
 });
 
 router.delete("/:wikiId", (req, res, next) => {
@@ -239,6 +239,33 @@ router.post('/article', (req, res, next) => {
                 error: error            
             })
         });
+});
+
+router.patch("/article/:articleId", (req, res, next) => {
+    const id = req.params.articleId;
+    const updateOps = {};
+    for (const ops of req.body){
+        updateOps[ops.propName] = ops.value;
+    }
+    WikiArticle.update({_id: id}, {$set: updateOps})
+    .exec()
+    .then(result => {
+        console.log(result);
+        res.status(200).json({
+            message: 'Article updated',
+            request: {
+                type: 'GET',
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/article/' + id
+            }
+        });
+
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    });
 });
 
 router.delete("/article/:articleId", (req, res, next) => {
