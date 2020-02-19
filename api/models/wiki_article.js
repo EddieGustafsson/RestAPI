@@ -9,7 +9,8 @@ const wikiArticleSchema = mongoose.Schema({
     date: {type: Date, required: true},
     hidden: {type: Boolean, default: false},
     locked: {type: Boolean, default: false},
-    source: {type: String, required: true}
+    source: {type: String, required: true},
+    tags: {type: String, required: false}
 });
 
 module.exports = mongoose.model('WikiArticle', wikiArticleSchema);

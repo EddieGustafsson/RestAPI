@@ -139,6 +139,7 @@ router.get("/articles/:wikiId", (req, res, next) => {
                     hidden: doc.hidden,
                     locked: doc.locked,
                     source: doc.source,
+                    tags: doc.tags,
                     request: {
                         type: 'GET',
                         url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + doc._id
@@ -173,6 +174,7 @@ router.get("/article/:articleId", (req, res, next) => {
                     hidden: doc.hidden,
                     locked: doc.locked,
                     source: doc.source,
+                    tags: doc.tags,
                     request: {
                         message: 'Retrive all articles from one wiki',
                         type: 'GET',
@@ -208,7 +210,8 @@ router.post('/article', (req, res, next) => {
                 date: req.body.date,
                 hidden: req.body.hidden,
                 locked: req.body.locked,
-                source: req.body.source
+                source: req.body.source,
+                tags: req.body.tags
             });
             return article.save()
         })
@@ -225,7 +228,8 @@ router.post('/article', (req, res, next) => {
                     date: result.date,
                     hidden: result.hidden,
                     locked: result.locked,
-                    source: result.source
+                    source: result.source,
+                    tags: result.tags
                 },
                 request: {
                     type: 'GET',
@@ -243,11 +247,7 @@ router.post('/article', (req, res, next) => {
 
 router.patch("/article/:articleId", (req, res, next) => {
     const id = req.params.articleId;
-    const updateOps = {};
-    for (const ops of req.body){
-        updateOps[ops.propName] = ops.value;
-    }
-    WikiArticle.update({_id: id}, {$set: updateOps})
+    WikiArticle.updateMany({_id: id}, {$set: req.body})
     .exec()
     .then(result => {
         console.log(result);
