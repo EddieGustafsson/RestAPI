@@ -121,6 +121,76 @@ router.delete("/:wikiId", (req, res, next) => {
 
 /* Wiki articles specific requests */
 
+router.get("/articles/:wikiId", (req, res, next) => {
+    WikiArticle.find({wiki_id: req.params.wikiId})
+    .select()
+    .populate('wiki')
+    .exec()
+    .then(docs => {
+        const response = {
+            count: docs.length,
+            articles: docs.map(doc => {
+                return{
+                    _id: doc._id,
+                    created_user_id: doc.created_user_id,
+                    accepted_user_id: doc.accepted_user_id,
+                    title: doc.title,
+                    date: doc.date,
+                    hidden: doc.hidden,
+                    locked: doc.locked,
+                    source: doc.source,
+                    request: {
+                        type: 'GET',
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/article/' + doc._id
+                    }
+                }
+            })
+        };
+        res.status(200).json(response);
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    });
+});
+
+router.get("/article/:articleId", (req, res, next) => {
+    WikiArticle.find({_id: req.params.articleId})
+    .select()
+    .populate('wiki')
+    .exec()
+    .then(docs => {
+        const response = {
+            article: docs.map(doc => {
+                return{
+                    _id: doc._id,
+                    created_user_id: doc.created_user_id,
+                    accepted_user_id: doc.accepted_user_id,
+                    title: doc.title,
+                    date: doc.date,
+                    hidden: doc.hidden,
+                    locked: doc.locked,
+                    source: doc.source,
+                    request: {
+                        message: 'Retrive all articles from one wiki',
+                        type: 'GET',
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/articles/' + doc.wiki_id
+                    }
+                }
+            })
+        };
+        res.status(200).json(response);
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    });
+});
+
 router.post('/article', (req, res, next) => {
     Wiki.findById(req.body.wikiId)
         .then(articles => {
@@ -169,6 +239,27 @@ router.post('/article', (req, res, next) => {
                 error: error            
             })
         });
+});
+
+router.delete("/article/:articleId", (req, res, next) => {
+    WikiArticle.remove({_id: req.params.articleId})
+    .exec()
+    .then(result => {
+        res.status(200).json({
+            message: "Article deleted",
+            request: {
+                message: 'Create a new article',
+                type: "POST",
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article',
+                body: {wikiId: "Id", createdUserId: "Number", acceptedUserId:"Number", title: "String", date: "Date", source: "String"}
+            }
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error:err
+        });
+    });
 });
 
 module.exports = router;
