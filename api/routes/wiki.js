@@ -50,7 +50,7 @@ router.get("/:wikiId", (req, res, next) => {
             wiki: wiki,
             request: {
                 type: "GET",
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wikis'
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki'
             }
         });
     })
@@ -141,7 +141,7 @@ router.get("/articles/:wikiId", (req, res, next) => {
                     source: doc.source,
                     request: {
                         type: 'GET',
-                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/article/' + doc._id
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article/' + doc._id
                     }
                 }
             })
@@ -176,7 +176,7 @@ router.get("/article/:articleId", (req, res, next) => {
                     request: {
                         message: 'Retrive all articles from one wiki',
                         type: 'GET',
-                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/articles/' + doc.wiki_id
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/articles/' + doc.wiki_id
                     }
                 }
             })
@@ -255,7 +255,7 @@ router.patch("/article/:articleId", (req, res, next) => {
             message: 'Article updated',
             request: {
                 type: 'GET',
-                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/article/' + id
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/wiki/article/' + id
             }
         });
 
