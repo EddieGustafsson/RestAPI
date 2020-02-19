@@ -8,7 +8,7 @@ const wikiArticleSchema = mongoose.Schema({
     title: {type: String, required: true},
     date: {type: Date, required: true},
     hidden: {type: Boolean, default: false},
-    locked: {type: Boolean, defualt: false},
+    locked: {type: Boolean, default: false},
     source: {type: String, required: true}
 });
 
