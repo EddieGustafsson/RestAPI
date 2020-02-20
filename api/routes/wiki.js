@@ -397,4 +397,31 @@ router.delete("/article/:articleId", (req, res, next) => {
     });
 });
 
+router.delete("/article/history/:historyId/", (req, res, next) => {
+    WikiArticleHistory.remove({_id:req.params.historyId})
+    .exec()
+    .then(result => {
+        res.status(200).json({
+            message: "History item deleted",
+            request: {
+                message: "Create a new history item",
+                type: "POST",
+                url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/history',
+                body: {
+                    articleId: "Id",
+                    createdUserId: "Id",
+                    title: "String",
+                    date: "Date",
+                    source: "String"
+                }
+            }
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error:err
+        });
+    });
+});
+
 module.exports = router;
