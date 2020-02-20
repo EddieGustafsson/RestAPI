@@ -193,7 +193,7 @@ router.get("/article/:articleId", (req, res, next) => {
     });
 });
 
-router.get("/article/:articleId/history/", (req, res, next) =>{
+router.get("/article/:articleId/history/", (req, res, next) => {
     WikiArticleHistory.find({article_id: req.params.articleId})
     .select()
     .populate('WikiArticleHistory')
