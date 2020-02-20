@@ -226,6 +226,38 @@ router.get("/article/:articleId/history/", (req, res, next) =>{
     });
 });
 
+router.get("/article/history/:historyId/", (req, res, next) => {
+    WikiArticleHistory.find({_id: req.params.historyId})
+    .select()
+    .populate('WikiArticleHistory')
+    .exec()
+    .then(docs => {
+        const response = {
+            history: docs.map(doc => {
+                return{
+                    _id: doc._id,
+                    article_id: doc.article_id,
+                    created_user_id: doc.created_user_id,
+                    title: doc.title,
+                    date: doc.date,
+                    source: doc.source,
+                    request: {
+                        type: 'GET',
+                        url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/'+ doc.article_id +'/history/'
+                    }
+                }
+            })
+        };
+        res.status(200).json(response);
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    });
+});
+
 router.post('/article', (req, res, next) => {
     Wiki.findById(req.body.wikiId)
         .then(articles => {
