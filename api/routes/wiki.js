@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Wiki = require('../models/wiki');
 const Service = require('../models/services');
 const WikiArticle = require('../models/wiki_article');
+const WikiArticleHistory = require('../models/wiki_article_history');
 
 /* Wiki specific requests */
 
@@ -245,6 +246,50 @@ router.post('/article', (req, res, next) => {
         });
 });
 
+router.post('/article/history', (req, res, next) => {
+    WikiArticle.findById(req.body.articleId)
+        .then(articles => {
+            if(!WikiArticle){
+                return res.status(404).json({
+                    message: "Article not found"
+                });
+            }
+            const articleHistory = new WikiArticleHistory({
+                _id: mongoose.Types.ObjectId(),
+                article_id: req.body.articleId,
+                created_user_id: req.body.createdUserId,
+                title: req.body.title,
+                date: req.body.date,
+                source: req.body.source
+            });
+            return articleHistory.save()
+        })
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: 'Article history created',
+                createdArticleHistory:{
+                    _id: result._id,
+                    article_id: result.articleId,
+                    created_user_id: result.createdUserId,
+                    title: result.title,
+                    date: result.date,
+                    source: result.source
+                },
+                request: {
+                    type: 'GET',
+                    url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + req.body.articleId + '/history/'
+                }
+            });
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                error: error            
+            })
+        });
+});
+
 router.patch("/article/:articleId", (req, res, next) => {
     const id = req.params.articleId;
     WikiArticle.updateMany({_id: id}, {$set: req.body})
@@ -258,7 +303,6 @@ router.patch("/article/:articleId", (req, res, next) => {
                 url: 'http://'+ process.env.HOST + ":" + process.env.PORT +'/v1/wiki/article/' + id
             }
         });
-
     })
     .catch(error => {
         console.log(error);
