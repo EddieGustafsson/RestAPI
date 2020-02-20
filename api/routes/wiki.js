@@ -139,7 +139,6 @@ router.get("/articles/:wikiId", (req, res, next) => {
                     date: doc.date,
                     hidden: doc.hidden,
                     locked: doc.locked,
-                    source: doc.source,
                     tags: doc.tags,
                     request: {
                         type: 'GET',
