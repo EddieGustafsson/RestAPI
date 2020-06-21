@@ -29,5 +29,5 @@ Run the the following command in a command line:
 ```npm install```
 
 ### 4. Start the API
-To start he API type this in a command line:
+To start the API type this in a command line:
 ```npm start```
